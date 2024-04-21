@@ -1,0 +1,96 @@
+.layout {
+    display: flex;
+    flex-direction: row;
+    gap: 4vh;
+    padding: 4vh;
+
+    @media (max-width: 768px){
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 768px){
+    .main-section{
+        width: 70vw;
+    }
+
+    .secondary-section{
+        width: 30vw;
+    }
+}
+
+
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4vh;
+    background: #CCB3F3;
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid #7b6a9f;
+}
+
+
+.second-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4vh;
+    background: #CCB3F3;
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid #7b6a9f;
+}
+
+.card-primary{
+    border-radius: 10px;
+    flex-basis: calc(50% - 2vh); /* Ancho mínimo para dos tarjetas por fila */
+}
+
+@media (max-width: 1024px) {
+    .card-primary {
+        flex-basis: calc(100%); /* Cambia a ocupar todo el ancho en pantallas estrechas */
+    }
+}
+
+
+.card{
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+.card-primary img{
+    width: 100%;
+    object-fit: cover;
+    padding-top: 10px;
+}
+
+.card img {
+    width: 100%;
+    object-fit: cover;
+    padding-top: 10px;
+}
+
+
+.secondary-card-content{
+    height: 200px;
+}
+
+mat-divider{
+    margin-top: 16px;
+}
+
+button{
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.gallery-event-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+

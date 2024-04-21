@@ -1,0 +1,12 @@
+<mat-toolbar color="primary">
+    <img src="../../../assets/branding/isotype.png" alt="" width="40">
+    <span class="spacer"></span>
+    @if(userService.isLogged()){
+        <button mat-button routerLink="/gallery" routerLinkActivate="active">Eventos</button>
+        <button mat-button (click)="onClickLogout()">Salir</button>
+    }
+    @if(!userService.isLogged()){
+        <button mat-button routerLink="/register" routerLinkActivate="active">Regístrate</button>
+        <button mat-button routerLink="/login" routerLinkActivate="active">Inicia sesión</button>
+    }
+</mat-toolbar>

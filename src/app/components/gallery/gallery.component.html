@@ -1,0 +1,64 @@
+<div class="layout">
+    <div class="main-section">
+        <div class="gallery-event-header">
+            <h2>Eventos</h2>
+            <!--ESTE BOTON SOLO DEBERÍA VERLO UN SUPERUSUARIO-->
+            <button mat-mini-fab extended aria-label="New event" routerLink="/new-event" routerLinkActivate="active">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+
+        <div class="main-container">
+            @for(event of events; track event){
+            <mat-card class="card-primary">
+                <mat-card-header>
+                    <mat-card-title>{{event.name}}</mat-card-title>
+                    <mat-card-subtitle>Subtítulo</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                    alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>Etiquetas</p>
+                    @for(theme of event.themes; track theme){
+                        <button mat-flat-button color="accent">
+                            {{theme}}
+                        </button>
+                    }
+                    <mat-divider></mat-divider>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button>
+                        <mat-icon>date_range</mat-icon>
+                        17/04 - 20/04
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+            }
+        </div>
+    </div>
+    <div class="secondary-section">
+        <h2>Eventos pasados</h2>
+        <div class="second-container">
+            <!-- Cards para la sección secundaria -->
+            @for(card of [1, 2, 3]; track card){
+            <mat-card class="card">
+                <mat-card-header>
+                    <mat-card-title>Event name</mat-card-title>
+                    <mat-card-subtitle>Subtítulo</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                    alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <mat-divider></mat-divider>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button mat-button>
+                        <mat-icon>date_range</mat-icon>
+                        17/04
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+            }
+        </div>
+    </div>
+</div>

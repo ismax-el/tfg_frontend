@@ -1,0 +1,23 @@
+.form{
+    display: flex;
+    flex-direction: column;
+}
+
+mat-card{
+    max-width: 40vw;
+    margin: 5vh auto;
+    text-align: center;
+    padding: 3vh;
+    @media (max-width: 768px){
+        max-width: 80vw;
+        padding: 1vh;
+    }
+}
+
+.button{
+    background-color: rgb(189, 170, 217);
+}
+
+.password-error{
+    padding: 1vh;
+}
