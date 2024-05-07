@@ -1,0 +1,111 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    padding: 4vh;
+}
+
+.event-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mat-mdc-card {
+    background-color: #CCB3F3;
+    border: 2px solid #7b6a9f;
+    box-shadow: none;
+
+    button {
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+}
+
+.images-container {
+    columns: 15rem 4;
+    gap: 1.4rem 1.4rem;
+    padding-top: 4vh;
+    margin-bottom: 4vh;
+}
+
+
+.image-container {
+    margin-bottom: 1.4rem;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.overlay-buttons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.image-container:hover .overlay-buttons {
+    display: flex;
+    /* Para mostrar los botones al hacer hover */
+}
+
+.image-container img {
+    border-radius: 15px;
+    width: 100%;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    /* Transición suave para el efecto hover */
+}
+
+.image-container:hover img {
+    transform: scale(1.1);
+    /* Zoom de 110% al hacer hover */
+    filter: brightness(70%) blur(3px);
+    /* Aplicación de un desenfoque de 3px al hacer hover */
+}
+
+.like-container {
+    margin-top: 2vh;
+}
+
+@keyframes highlightAnimation {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.highlighted-image {
+    animation: highlightAnimation 3s ease;
+}
+
+.fade-in-item {
+    animation: fadeIn 1.5s ease;
+    animation-fill-mode: both;
+    /* Para que el elemento se quede en el estado final de la animación */
+    opacity: 0;
+    /* Inicialmente el elemento estará transparente */
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

@@ -59,5 +59,10 @@ mat-snack-bar-container{
     --mdc-filled-button-container-color: #f4d8f6 !important;
     --mdc-filled-button-label-text-color: #392465 !important;
     border-radius: 30px !important;
+}
 
+.mat-mdc-mini-fab{
+    background-color: #FF69B1 !important;
+    border-radius: 30% !important;
+    box-shadow: none !important;
 }

@@ -7,9 +7,12 @@ import { firstValueFrom } from 'rxjs';
 })
 export class UserService {
     private baseUrl: string;
+    userId: string | null = null;
+    userRol: string | null = null;
 
     constructor(private http: HttpClient) {
         this.baseUrl = 'http://localhost:3000/api/users';
+        this.retrieveUserInfo();
     }
 
     register(formValue: any) {
@@ -39,7 +42,21 @@ export class UserService {
         ).then(response => response.isValid);
     }
 
-    getUserIdFromToken() {
+    retrieveUserInfo(): any {
+        const token = localStorage.getItem('userToken');
+        if (token) {
+            const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+            console.log(tokenPayload);
+            
+            if(tokenPayload){
+                //En lugar de settear el token en el localstorage, descifrarlo del token
+                this.userId = tokenPayload.user_id;
+                this.userRol = tokenPayload.user_rol;
+            }
+        }
+    }
 
+    isAdminUser(): any {
+        return this.userRol == 'administrator'
     }
 }

@@ -1,1 +1,54 @@
-<p>event works!</p>
+<div class="layout">
+    <div class="event-info">
+        <h2>{{event?.name}}</h2>
+        <button mat-button (click)="goToUploadImage()">PARTICIPAR</button>
+    </div>
+    <mat-card>
+        <mat-card-header>
+            @for(theme of event?.themes; track theme){
+            <button mat-flat-button color="accent">
+                {{theme}}
+            </button>
+            }
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{event?.description}}</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            @if(likedImage == null){
+            <!-- Aún no has votado en este evento. ¡Echa un vistazo y dale me gusta a tu favorito! -->
+            <button mat-button 
+                color="primary"
+                matTooltip="Aún no has votado en este evento. ¡Echa un vistazo y dale a me gusta a tu favorito!"
+                >Voto disponible</button>
+            }@else {
+            <!-- Ya has dado tu voto a una ilustración de este evento. Recuerda consultar otros eventos para seguir votando. -->
+            <button mat-button color="primary" (click)="scrollToLikedImage()">Ir a imagen votada</button>
+            }
+            <button mat-button>
+                <mat-icon>date_range</mat-icon>
+                {{event?.startDate | date: 'dd/MM'}} - {{event?.endDate | date: 'dd/MM'}}
+            </button>
+        </mat-card-actions>
+    </mat-card>
+    <div class="images-container">
+        @for(image of images; track image){
+        <div class="image-container fade-in-item">
+            @if(likedImage == image._id){
+            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" #likedImage alt="">
+            }@else {
+            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="">
+            }
+            <div class="overlay-buttons">
+                <button mat-fab class="show-detail-btn" (click)="openImageDialog(image._id)">
+                    <mat-icon>zoom_in</mat-icon>
+                </button>
+                <button mat-fab class="like-btn" color="{{likedImage == image._id ? 'primary':'accent'}}"
+                    (click)="likeImage(image._id)">
+                    <mat-icon>thumb_up</mat-icon>
+                </button>
+            </div>
+        </div>
+        }
+    </div>
+</div>

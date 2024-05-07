@@ -42,6 +42,8 @@ export class LoginComponent {
         const response = await this.userService.login(this.form.value);
         if (!response.error) {
             localStorage.setItem('userToken', response.token)
+            this.userService.userId = response.userId;
+            this.userService.userRol = response.userRol;
             setTimeout(() => {
                 this.router.navigate(['/gallery']); // Navegar a la galería después de 2 segundos
                 this.snackBar.open('Has iniciado sesión correctamente', 'Cerrar', {

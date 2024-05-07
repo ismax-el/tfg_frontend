@@ -3,33 +3,42 @@
         <div class="gallery-event-header">
             <h2>Eventos</h2>
             <!--ESTE BOTON SOLO DEBERÍA VERLO UN SUPERUSUARIO-->
+            @if(userService.isAdminUser()){
             <button mat-mini-fab extended aria-label="New event" routerLink="/new-event" routerLinkActivate="active">
                 <mat-icon>add</mat-icon>
             </button>
+            }
         </div>
 
         <div class="main-container">
-            @for(event of events; track event){
-            <mat-card class="card-primary">
+            @for(event of upComingEvents; track event){
+            <mat-card class="card-primary" (click)="goToEvent(event.id)">
                 <mat-card-header>
                     <mat-card-title>{{event.name}}</mat-card-title>
                     <mat-card-subtitle>Subtítulo</mat-card-subtitle>
+                    @if(userService.isAdminUser()){
+                    <button mat-mini-fab aria-label="Delete"
+                        (click)="deleteEvent(event.id); $event.stopPropagation()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    }
                 </mat-card-header>
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-                    alt="Photo of a Shiba Inu">
+                <img mat-card-image [src]=" event.randomImage != null ? 'http://localhost:3000/api/events/' + event.id + '/images/' + event.randomImage + '/preview' : '../assets/placeholders/eventImage.png'"
+                    alt="Event image"
+                    height="250">
                 <mat-card-content>
                     <p>Etiquetas</p>
                     @for(theme of event.themes; track theme){
-                        <button mat-flat-button color="accent">
-                            {{theme}}
-                        </button>
+                    <button mat-flat-button color="accent">
+                        {{theme}}
+                    </button>
                     }
                     <mat-divider></mat-divider>
                 </mat-card-content>
                 <mat-card-actions align="end">
                     <button mat-button>
                         <mat-icon>date_range</mat-icon>
-                        17/04 - 20/04
+                        {{event.startDate | date:'dd/MM'}} - {{event.endDate | date:'dd/MM'}}
                     </button>
                 </mat-card-actions>
             </mat-card>
@@ -40,13 +49,13 @@
         <h2>Eventos pasados</h2>
         <div class="second-container">
             <!-- Cards para la sección secundaria -->
-            @for(card of [1, 2, 3]; track card){
-            <mat-card class="card">
+            @for(pastEvent of pastEvents; track pastEvent){
+            <mat-card class="card" (click)="goToEvent(pastEvent.id)">
                 <mat-card-header>
-                    <mat-card-title>Event name</mat-card-title>
+                    <mat-card-title>{{pastEvent.name}}</mat-card-title>
                     <mat-card-subtitle>Subtítulo</mat-card-subtitle>
                 </mat-card-header>
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                <img mat-card-image [src]=" pastEvent.randomImage != null ? 'http://localhost:3000/api/events/' + pastEvent.id + '/images/' + pastEvent.randomImage + '/preview' : '../assets/placeholders/eventImage.png'"
                     alt="Photo of a Shiba Inu">
                 <mat-card-content>
                     <mat-divider></mat-divider>
@@ -54,7 +63,7 @@
                 <mat-card-actions align="end">
                     <button mat-button>
                         <mat-icon>date_range</mat-icon>
-                        17/04
+                        {{pastEvent.endDate | date: 'dd/MM'}}
                     </button>
                 </mat-card-actions>
             </mat-card>

@@ -8,8 +8,6 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { provideNativeDateAdapter } from '@angular/material/core';
-
-
 import { Router } from '@angular/router';
 import { EventService } from '../../../services/event.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -30,11 +28,24 @@ export class NewEventComponent {
 
     constructor(private router: Router, private eventService: EventService, private snackBar: MatSnackBar) {
         this.form = new FormGroup({
-            name: new FormControl(),
-            description: new FormControl(),
+            name: new FormControl("", Validators.required),
+            description: new FormControl("", Validators.required),
             themes: new FormControl([]),
-            startDate: new FormControl(),
-            endDate: new FormControl(),
+            startDate: new FormControl(null, [
+                Validators.required,
+                this.startDateValidator
+            ]),
+            endDate: new FormControl({value: null, disabled: true}, [
+                this.endDateValidator
+            ]),
+        })
+
+        this.form.get('startDate')!.valueChanges.subscribe(value => {
+            if(!value){
+                this.form.get('endDate')!.disable();
+            }else{
+                this.form.get('endDate')!.enable();
+            }
         })
     }
 
@@ -61,12 +72,39 @@ export class NewEventComponent {
     }
     //CHIPS PARA THEMES
 
-    async onSubmit(){
+
+    //DATE VALIDATORS
+    startDateValidator(control: AbstractControl) {
+        const startDate = control.value;
+
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        if (new Date(startDate) < currentDate) {
+            return { 'invalidStartDate': true };
+        }
+
+        return null;
+    }
+
+    endDateValidator(control: AbstractControl) {
+        const endDate = control.value;
+        const startDate = control.root.get('startDate')?.value;
+
+        if (new Date(endDate) <= new Date(startDate)) {
+            return { 'invalidEndDate': true };
+        }
+
+        return null;
+    }
+    //DATE VALIDATORS
+
+    async onSubmit() {
         this.showSpinner = true;
 
         //EVENTSERVICE CREAR NUEVO EVENTO
         const response = await this.eventService.createEvent(this.form.value);
-		console.log(response);
+        console.log(response);
 
         if (!response.error) {
             setTimeout(() => {

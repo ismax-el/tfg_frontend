@@ -1,0 +1,33 @@
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+mat-card {
+    max-width: 30vw;
+    margin: 4vh auto;
+    text-align: center;
+    padding: 3vh;
+
+    @media (max-width: 768px) {
+        max-width: 80vw;
+
+        padding: 1vh;
+    }
+}
+
+.button {
+    background-color: rgb(189, 170, 217);
+}
+
+.spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+.delete-button{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

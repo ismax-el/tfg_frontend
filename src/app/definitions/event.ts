@@ -5,4 +5,5 @@ export interface Event {
     themes: string[];
     startDate: Date;
     endDate: Date;
+    randomImage: string | null;
 }

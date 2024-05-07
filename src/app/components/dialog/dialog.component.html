@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Quitar like</h2>
+<mat-dialog-content>
+  <p>¿Estás seguro que quieres quitar el me gusta de esta imagen?</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button [mat-dialog-close]="true" color="warn" cdkFocusInitial>Ya no me gusta</button>
+</mat-dialog-actions>
