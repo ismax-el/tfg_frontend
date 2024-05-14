@@ -6,23 +6,23 @@
             <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/home" routerLinkActivate="active">¿Cómo funciona?</button>
             @if(userService.isLogged()){
                 <button mat-menu-item routerLink="/gallery" routerLinkActivate="active">Eventos</button>
                 <button mat-menu-item (click)="onClickLogout()">Salir</button>
             }
             @if(!userService.isLogged()){
-                <button mat-menu-item routerLink="/home" routerLinkActivate="active">¿Cómo funciona?</button>
                 <button mat-menu-item routerLink="/register" routerLinkActivate="active">Regístrate</button>
                 <button mat-menu-item routerLink="/login" routerLinkActivate="active">Inicia sesión</button>
             }
         </mat-menu>
     }@else {
+        <button mat-button routerLink="/home" routerLinkActivate="active">¿Cómo funciona?</button>
         @if(userService.isLogged()){
             <button mat-button routerLink="/gallery" routerLinkActivate="active">Eventos</button>
             <button mat-button (click)="onClickLogout()">Salir</button>
         }
         @if(!userService.isLogged()){
-            <button mat-button routerLink="/home" routerLinkActivate="active">¿Cómo funciona?</button>
             <button mat-button routerLink="/register" routerLinkActivate="active">Regístrate</button>
             <button mat-button routerLink="/login" routerLinkActivate="active">Inicia sesión</button>
         }
