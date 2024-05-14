@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, firstValueFrom, map } from 'rxjs';
+import { Observable, catchError, firstValueFrom, map, throwError } from 'rxjs';
 import { Event } from '../definitions/event';
 import { UserService } from './user.service';
 
@@ -19,6 +19,9 @@ export class EventService {
     getEvent(eventId: string): Observable<Event>{
         return this.http.get<any>(`${this.baseUrl}/${eventId}`).pipe(
             map((response) => {
+                if(!response || response.error){
+                    throw new Error('Evento no encontrado')
+                }
                 return{
                     id: response._id,
                     name: response.name,
@@ -26,7 +29,7 @@ export class EventService {
                     themes: response.themes, 
                     startDate: new Date(response.startDate),
                     endDate: new Date(response.endDate),
-                    randomImage: null,
+                    defaultImage: null,
                     isActive: null
                 }
             })
@@ -43,7 +46,7 @@ export class EventService {
                     themes: event.themes,
                     startDate: new Date(event.startDate),
                     endDate: new Date(event.endDate),
-                    randomImage: null,
+                    defaultImage: null,
                     isActive: null
                 }));
             })
@@ -55,6 +58,9 @@ export class EventService {
             map((response: any[]) => {
                 response.sort((a, b) => b.likes - a.likes)
                 return response;
+            }),
+            catchError((error) => {
+                return throwError(error)
             })
         )
     }

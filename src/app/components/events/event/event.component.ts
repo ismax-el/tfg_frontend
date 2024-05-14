@@ -48,7 +48,7 @@ export class EventComponent implements OnInit {
             this.event = this.eventService.event;
         } else {
             console.log("No existe e")
-            this.eventService.getEvent(this.eventId).subscribe(event => {
+            this.eventService.getEvent(this.eventId).subscribe((event) => {
                 const currentDate = new Date();
                 currentDate.setHours(0, 0, 0, 0);
                 event.isActive = event.endDate < currentDate ? false : true;
@@ -56,11 +56,19 @@ export class EventComponent implements OnInit {
                     if (images.length > 0) {
                         //Ordenamos en orden descendente las imágenes por like y cogemos la primera
                         images.sort((a, b) => b.likes - a.likes);
-                        event.randomImage = images[0]._id;
+                        event.defaultImage = images[0]._id;
                     }
+                },
+                error => {
+                    console.error("Error al obtener las imágenes.")
+                    this.router.navigate(['/not-found'])
                 })
 
                 this.event = event;
+            },
+            (error) => {
+                console.error("Error al obtener el evento.")
+                this.router.navigate(['/not-found'])
             })
         }
 
@@ -89,6 +97,10 @@ export class EventComponent implements OnInit {
 
                     this.getWinnersInfo(tiedImages);
                 }
+            },
+            error => {
+                console.error("Error al obtener el evento.")
+                this.router.navigate(['/not-found'])
             })
         }
 

@@ -43,7 +43,7 @@
                     }
                 </mat-card-header>
                 <img mat-card-image
-                    [src]=" event.randomImage != null ? 'https://kaiprojectbackend.onrender.com/api/events/' + event.id + '/images/' + event.randomImage + '/preview' : '../assets/placeholders/eventImage.png'"
+                    [src]=" event.defaultImage != null ? 'https://kaiprojectbackend.onrender.com/api/events/' + event.id + '/images/' + event.defaultImage + '/preview' : '../assets/placeholders/eventImage.png'"
                     alt="Event image" height="250">
                 <mat-card-content>
                     <p>Etiquetas</p>
@@ -88,7 +88,7 @@
                     }
                 </mat-card-header>
                 <img mat-card-image
-                    [src]=" pastEvent.randomImage != null ? 'https://kaiprojectbackend.onrender.com/api/events/' + pastEvent.id + '/images/' + pastEvent.randomImage + '/preview' : '../assets/placeholders/eventImage.png'"
+                    [src]=" pastEvent.defaultImage != null ? 'https://kaiprojectbackend.onrender.com/api/events/' + pastEvent.id + '/images/' + pastEvent.defaultImage + '/preview' : '../assets/placeholders/eventImage.png'"
                     alt="Photo of a Shiba Inu">
                 <mat-card-content>
                     <mat-divider></mat-divider>

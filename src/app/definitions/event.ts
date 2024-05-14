@@ -5,6 +5,6 @@ export interface Event {
     themes: string[];
     startDate: Date;
     endDate: Date;
-    randomImage: string | null;
+    defaultImage: string | null;
     isActive: boolean | null;
 }

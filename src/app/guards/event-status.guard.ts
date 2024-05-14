@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { EventService } from '../services/event.service';
-import { map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 
 export const eventStatusGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
@@ -20,10 +20,14 @@ export const eventStatusGuard: CanActivateFn = (route, state) => {
                 if(event.endDate >= currentDate){
                     return true;
                 }else{
-                    router.navigate(['/event', eventId])
+                    router.navigate(['/not-found'])
                     return false;
                 }
                 
+            }),
+            catchError((error) => {
+                router.navigate(['/not-found']);
+                return throwError(error)
             })
         );
     }

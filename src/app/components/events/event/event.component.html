@@ -18,7 +18,7 @@
             <h3 class="winner-name">¡Un gran aplauso para... {{winnerInfo?.name}}!</h3>
             <p>¡Enhorabuena!</p>
             @if(winnerInfo?.instagram || winnerInfo?.twitter || winnerInfo?.artstation){
-            <p>Para saber un poco más acerca de él, recordad visitar sus redes.</p>
+            <p style="text-align: center;">Para saber un poco más acerca de él, recordad visitar sus redes.</p>
             }
             @if(winnerInfo?.instagram){
             <p><a [href]="winnerInfo?.instagram" target="_blank">Perfil de Instagram</a></p>
