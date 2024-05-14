@@ -1,8 +1,8 @@
 @if(!showSpinner){
-<mat-card appearance="outlined"> 
+<mat-card appearance="outlined">
     <mat-card-content>
         <form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
-            <h2>Crea un nuevo evento</h2>
+            <h2>Editar evento</h2>
             <mat-form-field color="accent">
                 <mat-label>Nombre del evento</mat-label>
                 <input matInput formControlName="name" required>
@@ -34,7 +34,7 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1 color="primary"></mat-datepicker>
                 @if(form.get('startDate')?.errors?.['invalidStartDate']){
-                    <mat-error >La fecha de inicio no puede ser anterior al día actual.</mat-error>
+                <mat-error>La fecha de inicio no puede ser anterior al día actual.</mat-error>
                 }
             </mat-form-field>
 
@@ -44,7 +44,7 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2 color="primary"></mat-datepicker>
                 @if(form.get('endDate')?.errors?.['invalidEndDate']){
-                    <mat-error>La fecha de finalización no puede ser anterior a la fecha de inicio.</mat-error>
+                <mat-error>La fecha de finalización no puede ser anterior a la fecha de inicio.</mat-error>
                 }
             </mat-form-field>
 
@@ -55,8 +55,8 @@
 </mat-card>
 }
 @if(showSpinner){
-    <div class="progress-spinner">
-        <mat-progress-spinner class="spinner" mode="indeterminate" color="warn" diameter="64">
-        </mat-progress-spinner>
-    </div>
+<div class="progress-spinner">
+    <mat-progress-spinner class="spinner" mode="indeterminate" color="warn" diameter="64">
+    </mat-progress-spinner>
+</div>
 }

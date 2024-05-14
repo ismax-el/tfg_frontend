@@ -21,6 +21,10 @@
     }
 }
 
+.winner-card{
+    margin-bottom: 4vh;
+}
+
 .images-container {
     columns: 15rem 4;
     gap: 1.4rem 1.4rem;
@@ -108,4 +112,109 @@
     to {
         opacity: 1;
     }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.winner-info-container {
+    animation: 0.5s ease-out 0s 1 slideInFromLeft;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #7b6a9f; /* Borde */
+    padding: 4vh;
+    margin-bottom: 2vh;
+    border-radius: 4px;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.winner-image-container,
+.winner-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.winner-details-container {
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.winner-details-container a {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 5px 10px;
+    background-color: #7b6a9f;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    
+}
+
+.winner-details-container:hover {
+    transform: translateY(-10px);
+}
+
+.winner-image-container img {
+    transition: box-shadow 0.3s ease-in-out;
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border: 2px solid #7b6a9f; /* Borde */
+    border-radius: 4px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.winner-image-container:hover img {
+    transform: translateY(-10px);
+}
+
+.winner-name {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.no-images-container{
+    padding: 4vh;
+    margin-top: 4vh;
+    border: 2px solid #7b6a9f; /* Borde */
+    border-radius: 4px;
+    height: 45vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.like-count{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    background-color: rgba(255, 255, 255, 0.431);
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    backdrop-filter: blur(10px);
 }

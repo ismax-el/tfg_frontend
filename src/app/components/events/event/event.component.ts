@@ -13,6 +13,7 @@ import { ImageComponent } from '../../image/image.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UserService } from '../../../services/user.service';
 
 @Component({
     selector: 'app-event',
@@ -27,10 +28,11 @@ export class EventComponent implements OnInit {
     baseUrl: string;
     event: Event | null;
     likedImage: string | null;
+    winnersInfo: any[] = [];
 
     @ViewChild('likedImage') likedImageElement: ElementRef | undefined;
 
-    constructor(private snackBar: MatSnackBar, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private eventService: EventService, private imageService: ImageService, private router: Router) {
+    constructor(public userService: UserService, private snackBar: MatSnackBar, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private eventService: EventService, private imageService: ImageService, private router: Router) {
         this.baseUrl = 'http://localhost:3000/api/events';
         this.eventId = this.activatedRoute.snapshot.paramMap.get('eventId')!;
         console.log(this.eventId);
@@ -47,18 +49,46 @@ export class EventComponent implements OnInit {
         } else {
             console.log("No existe e")
             this.eventService.getEvent(this.eventId).subscribe(event => {
+                const currentDate = new Date();
+                currentDate.setHours(0, 0, 0, 0);
+                event.isActive = event.endDate < currentDate ? false : true;
+                this.eventService.getEventImages(this.eventId).subscribe(images => {
+                    if (images.length > 0) {
+                        //Ordenamos en orden descendente las imágenes por like y cogemos la primera
+                        images.sort((a, b) => b.likes - a.likes);
+                        event.randomImage = images[0]._id;
+                    }
+                })
+
                 this.event = event;
             })
         }
+
 
         //Inicializamos las imágenes del evento en el que nos encontramos
         if (this.imageService.eventImagesDict[this.eventId]) {
             console.log("Existe i")
             this.images = this.imageService.eventImagesDict[this.eventId]
+            if (!this.event?.isActive && this.images.length > 0) {
+                //Sacamos los likes de la imagen con más likes y miramos si hay más que tengan esa cantidad de likes
+                let maxLikes = this.images[0].likes;
+                let tiedImages = this.images.filter(eventImage => eventImage.likes == maxLikes);
+
+                this.getWinnersInfo(tiedImages);
+
+
+            }
         } else {
             console.log("No existe i")
             this.eventService.getEventImages(this.eventId).subscribe(images => {
                 this.images = images;
+                if (!this.event?.isActive && this.images.length > 0) {
+                    //Sacamos los likes de la imagen con más likes y miramos si hay más que tengan esa cantidad de likes
+                    let maxLikes = this.images[0].likes;
+                    let tiedImages = this.images.filter(eventImage => eventImage.likes == maxLikes);
+
+                    this.getWinnersInfo(tiedImages);
+                }
             })
         }
 
@@ -68,9 +98,23 @@ export class EventComponent implements OnInit {
             this.likedImage = response.imageId;
         })
 
+
+        console.log("Evento actual: ", this.event);
+
+    }
+
+    getWinnersInfo(winnerImages: any[]) {
+        winnerImages.forEach(winnerImage => {
+            this.userService.getUserInfo(winnerImage.user_id).subscribe(userInfo => {
+                userInfo.winningImage = winnerImage._id;
+                this.winnersInfo.push(userInfo);
+                console.log(userInfo);
+            })
+        })
     }
 
     goToUploadImage() {
+        console.log("HOLA", this.eventId)
         this.router.navigate([`/event/${this.eventId}/new-image`])
     }
 
@@ -86,7 +130,7 @@ export class EventComponent implements OnInit {
         this.imageService.likeImage(this.eventId, imageId).subscribe(
             (response) => {
                 if (response.alreadyLiked) {
-                    this.openDialog(imageId);
+                    this.openDialog(imageId, false);
                 }
                 else if (!response.error) {
                     this.snackBar.open('¡Has dado like a esta imagen!', 'Cerrar', { duration: 3000 });
@@ -110,13 +154,19 @@ export class EventComponent implements OnInit {
         )
     }
 
-    openDialog(imageId: string) {
-        const dialogRef = this.dialog.open(DialogComponent);
+    openDialog(imageId: string, isDeleteDialog: boolean) {
+        console.log(isDeleteDialog, imageId)
+        const dialogRef = this.dialog.open(DialogComponent, {
+            data: isDeleteDialog
+        });
 
         dialogRef.afterClosed().subscribe(result => {
             console.log(`Dialog result: ${result}`);
-            if (result)
+            if (result && !isDeleteDialog) {
                 this.dislikeImage(imageId);
+            } else if (result && isDeleteDialog) {
+                this.deleteImage(imageId)
+            }
         });
     }
 
@@ -126,12 +176,30 @@ export class EventComponent implements OnInit {
             this.likedImageElement.nativeElement.classList.add('highlighted-image');
 
             // Después de unos segundos, remover la clase de resaltado temporal
-        setTimeout(() => {
-            if (this.likedImageElement) {
-                this.likedImageElement.nativeElement.classList.remove('highlighted-image');
-            }
-        }, 3000);
+            setTimeout(() => {
+                if (this.likedImageElement) {
+                    this.likedImageElement.nativeElement.classList.remove('highlighted-image');
+                }
+            }, 3000);
         }
+    }
+
+    askDeleteImage(imageId: string) {
+        this.openDialog(imageId, true)
+    }
+
+    deleteImage(imageId: string) {
+        this.imageService.deleteImage(this.eventId, imageId).subscribe(response => {
+            if (!response.error) {
+                //mostrar la típica snackbar
+                this.snackBar.open(response.success, 'Cerrar', { duration: 3000 });
+
+                //actualizar las imágenes
+                this.eventService.getEventImages(this.eventId).subscribe(images => {
+                    this.images = images;
+                })
+            }
+        })
     }
 
 }

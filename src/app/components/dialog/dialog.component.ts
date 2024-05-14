@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-dialog',
@@ -10,8 +11,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   styleUrl: './dialog.component.scss'
 })
 export class DialogComponent {
-    constructor(private dialog: MatDialog){
-
+    constructor(public userService: UserService, @Inject(MAT_DIALOG_DATA) public data: {isDeleteDialog: boolean}, private dialog: MatDialog){
+        console.log(this.data)
     }
 
 }

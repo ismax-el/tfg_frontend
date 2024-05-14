@@ -9,6 +9,7 @@ import { UserService } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-login',
@@ -25,11 +26,13 @@ export class LoginComponent {
 
     userService = inject(UserService)
 
-    constructor(private router: Router, private snackBar: MatSnackBar) {
+    constructor(private recaptchaService: ReCaptchaV3Service, private router: Router, private snackBar: MatSnackBar) {
         this.form = new FormGroup({
             name: new FormControl(),
             email: new FormControl('', [Validators.required, Validators.email]),
-            password: new FormControl('', Validators.minLength(2))
+            password: new FormControl('', Validators.minLength(2)),
+            recaptcha: new FormControl('')
+            //hacer un mínimo de contraseña
         })
     }
 
@@ -38,6 +41,10 @@ export class LoginComponent {
         //Si no ha habido errores en la respuesta, setear el un token en el localstorage
         //navegar a la galería de eventos
         this.showSpinner = true;
+        const token = await this.executeRecaptcha();
+
+         // Asignar el token al formulario
+        this.form.patchValue({ recaptcha: token });
 
         const response = await this.userService.login(this.form.value);
         if (!response.error) {
@@ -46,8 +53,8 @@ export class LoginComponent {
             this.userService.userRol = response.userRol;
             setTimeout(() => {
                 this.router.navigate(['/gallery']); // Navegar a la galería después de 2 segundos
-                this.snackBar.open('Has iniciado sesión correctamente', 'Cerrar', {
-                    duration: 3000, // Duración de la snackbar en milisegundos
+                this.snackBar.open('Has iniciado sesión correctamente. Te recordamos que hacemos uso de cookies para guardar información necesaria.', 'Aceptar', {
+                    // duration: 3000, // Duración de la snackbar en milisegundos
                     panelClass: 'snackbar',
                 });
             }, 2000);
@@ -60,5 +67,20 @@ export class LoginComponent {
         setTimeout(() => {
             this.showSpinner = false;
         }, 2000);
+    }
+
+    executeRecaptcha(){
+        return new Promise((resolve, reject) => {
+            this.recaptchaService.execute('').subscribe(
+                token => {
+                    console.log(token);
+                    resolve(token);
+                },
+                error => {
+                    console.error('Error al ejecutar recaptcha:', error);
+                    reject(error);
+                }
+            );
+        });
     }
 }

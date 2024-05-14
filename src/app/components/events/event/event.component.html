@@ -1,8 +1,39 @@
 <div class="layout">
     <div class="event-info">
         <h2>{{event?.name}}</h2>
-        <button mat-button (click)="goToUploadImage()">PARTICIPAR</button>
+        @if(event?.isActive){
+        <button mat-stroked-button (click)="goToUploadImage()">PARTICIPAR</button>
+        }
     </div>
+    @if(!event?.isActive){
+    @if(winnersInfo.length > 1){
+    <h3>¡WOW! No solo tenemos uno, sino {{winnersInfo.length}} ganadores.</h3>
+    }
+    @for(winnerInfo of winnersInfo; track winnerInfo){
+    <div class="winner-info-container">
+        <div class="winner-image-container">
+            <img [src]="baseUrl+'/'+eventId+'/images/'+winnerInfo?.winningImage+'/original'" alt="">
+        </div>
+        <div class="winner-details-container">
+            <h3 class="winner-name">¡Un gran aplauso para... {{winnerInfo?.name}}!</h3>
+            <p>¡Enhorabuena!</p>
+            @if(winnerInfo?.instagram || winnerInfo?.twitter || winnerInfo?.artstation){
+            <p>Para saber un poco más acerca de él, recordad visitar sus redes.</p>
+            }
+            @if(winnerInfo?.instagram){
+            <p><a [href]="winnerInfo?.instagram" target="_blank">Perfil de Instagram</a></p>
+            }
+            @if(winnerInfo?.twitter){
+            <p><a [href]="winnerInfo?.twitter" target="_blank">Perfil de Twitter</a></p>
+            }
+            @if(winnerInfo?.artstation){
+            <p><a [href]="winnerInfo?.artstation" target="_blank">Perfil de ArtStation</a></p>
+            }
+            <!-- <p>{{winnerInfo?.instagram}}</p> -->
+        </div>
+    </div>
+    }
+    }
     <mat-card>
         <mat-card-header>
             @for(theme of event?.themes; track theme){
@@ -15,13 +46,12 @@
             <p>{{event?.description}}</p>
         </mat-card-content>
         <mat-card-actions align="end">
-            @if(likedImage == null){
+            @if(likedImage == null && event?.isActive){
             <!-- Aún no has votado en este evento. ¡Echa un vistazo y dale me gusta a tu favorito! -->
-            <button mat-button 
-                color="primary"
-                matTooltip="Aún no has votado en este evento. ¡Echa un vistazo y dale a me gusta a tu favorito!"
-                >Voto disponible</button>
-            }@else {
+            <button mat-button color="primary"
+                matTooltip="Aún no has votado en este evento. ¡Echa un vistazo y dale a me gusta a tu favorito!">Voto
+                disponible</button>
+            }@else if(likedImage != null){
             <!-- Ya has dado tu voto a una ilustración de este evento. Recuerda consultar otros eventos para seguir votando. -->
             <button mat-button color="primary" (click)="scrollToLikedImage()">Ir a imagen votada</button>
             }
@@ -31,6 +61,7 @@
             </button>
         </mat-card-actions>
     </mat-card>
+    @if(images.length > 0){
     <div class="images-container">
         @for(image of images; track image){
         <div class="image-container fade-in-item">
@@ -39,16 +70,34 @@
             }@else {
             <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="">
             }
+            @if(!event?.isActive){
+            <div class="like-count">
+                {{image.likes}}
+                <mat-icon>favorite</mat-icon>
+            </div>
+            }
             <div class="overlay-buttons">
                 <button mat-fab class="show-detail-btn" (click)="openImageDialog(image._id)">
                     <mat-icon>zoom_in</mat-icon>
                 </button>
+                @if(event?.isActive && image.user_id != userService.userId && !userService.isAdminUser()){
                 <button mat-fab class="like-btn" color="{{likedImage == image._id ? 'primary':'accent'}}"
                     (click)="likeImage(image._id)">
                     <mat-icon>thumb_up</mat-icon>
                 </button>
+                }@else if((image.user_id == userService.userId || userService.isAdminUser()) && event?.isActive){
+                <button mat-fab class="like-btn" (click)="askDeleteImage(image._id); $event.stopPropagation()">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                }
             </div>
         </div>
         }
     </div>
+    }@else {
+    <div class="no-images-container">
+        <h3>Nada que ver por aquí... Todavía...</h3>
+        <p>¡Sé el primero en participar!</p>
+    </div>
+    }
 </div>

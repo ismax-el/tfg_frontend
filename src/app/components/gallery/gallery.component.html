@@ -1,7 +1,7 @@
 <div class="layout">
     <div class="main-section">
         <div class="gallery-event-header">
-            <h2>Eventos</h2>
+            <h2>Eventos en marcha</h2>
             <!--ESTE BOTON SOLO DEBERÍA VERLO UN SUPERUSUARIO-->
             @if(userService.isAdminUser()){
             <button mat-mini-fab extended aria-label="New event" routerLink="/new-event" routerLinkActivate="active">
@@ -11,21 +11,40 @@
         </div>
 
         <div class="main-container">
+            @if(upComingEvents.length > 0){
             @for(event of upComingEvents; track event){
             <mat-card class="card-primary" (click)="goToEvent(event.id)">
                 <mat-card-header>
                     <mat-card-title>{{event.name}}</mat-card-title>
                     <mat-card-subtitle>Subtítulo</mat-card-subtitle>
                     @if(userService.isAdminUser()){
-                    <button mat-mini-fab aria-label="Delete"
-                        (click)="deleteEvent(event.id); $event.stopPropagation()">
-                        <mat-icon>delete</mat-icon>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Configuration" (click)="$event.stopPropagation()">
+                        <mat-icon>more_vert</mat-icon>
                     </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="editEvent(event.id); $event.stopPropagation()">
+                            <mat-icon>edit</mat-icon>
+                            <span>Editar</span>
+                        </button>
+                        <button mat-menu-item
+                            (click)="askDeleteEvent(event.id, true); $event.stopPropagation()">
+                            <mat-icon>delete</mat-icon>
+                            <span>Eliminar</span>
+                        </button>
+                    </mat-menu>
+                    <!-- <button class="edit-event" mat-mini-fab aria-label="Delete"
+                        (click)="editEvent(event.id); $event.stopPropagation()">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-mini-fab aria-label="Delete"
+                        (click)="askDeleteEvent(event.id, true); $event.stopPropagation()">
+                        <mat-icon>delete</mat-icon>
+                    </button> -->
                     }
                 </mat-card-header>
-                <img mat-card-image [src]=" event.randomImage != null ? 'http://localhost:3000/api/events/' + event.id + '/images/' + event.randomImage + '/preview' : '../assets/placeholders/eventImage.png'"
-                    alt="Event image"
-                    height="250">
+                <img mat-card-image
+                    [src]=" event.randomImage != null ? 'http://localhost:3000/api/events/' + event.id + '/images/' + event.randomImage + '/preview' : '../assets/placeholders/eventImage.png'"
+                    alt="Event image" height="250">
                 <mat-card-content>
                     <p>Etiquetas</p>
                     @for(theme of event.themes; track theme){
@@ -43,19 +62,33 @@
                 </mat-card-actions>
             </mat-card>
             }
+            }@else {
+            <div class="no-events-container">
+                <h3>Nada que ver por aquí... Todavía...</h3>
+                <p>Próximamente habrá más eventos.</p>
+            </div>
+            }
         </div>
     </div>
     <div class="secondary-section">
         <h2>Eventos pasados</h2>
         <div class="second-container">
+            @if(pastEvents.length > 0){
             <!-- Cards para la sección secundaria -->
             @for(pastEvent of pastEvents; track pastEvent){
             <mat-card class="card" (click)="goToEvent(pastEvent.id)">
                 <mat-card-header>
                     <mat-card-title>{{pastEvent.name}}</mat-card-title>
                     <mat-card-subtitle>Subtítulo</mat-card-subtitle>
+                    @if(userService.isAdminUser()){
+                    <button mat-mini-fab aria-label="Delete"
+                        (click)="askDeleteEvent(pastEvent.id, true); $event.stopPropagation()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                    }
                 </mat-card-header>
-                <img mat-card-image [src]=" pastEvent.randomImage != null ? 'http://localhost:3000/api/events/' + pastEvent.id + '/images/' + pastEvent.randomImage + '/preview' : '../assets/placeholders/eventImage.png'"
+                <img mat-card-image
+                    [src]=" pastEvent.randomImage != null ? 'http://localhost:3000/api/events/' + pastEvent.id + '/images/' + pastEvent.randomImage + '/preview' : '../assets/placeholders/eventImage.png'"
                     alt="Photo of a Shiba Inu">
                 <mat-card-content>
                     <mat-divider></mat-divider>
@@ -68,6 +101,13 @@
                 </mat-card-actions>
             </mat-card>
             }
+            }@else {
+            <div class="no-events-container">
+                <h3>Aún no hay eventos finalizados...</h3>
+                <p>Próximamente.</p>
+            </div>
+            }
+
         </div>
     </div>
 </div>

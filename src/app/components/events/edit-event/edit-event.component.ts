@@ -8,44 +8,52 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../../services/event.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
-
 @Component({
-    selector: 'app-new-event',
+    selector: 'app-edit-event',
     standalone: true,
     imports: [MatProgressSpinner, MatDatepickerModule, MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatChipsModule, MatIconModule, MatButtonModule],
     providers: [provideNativeDateAdapter()],
-    templateUrl: './new-event.component.html',
-    styleUrl: './new-event.component.scss'
+    templateUrl: './edit-event.component.html',
+    styleUrl: './edit-event.component.scss'
 })
-export class NewEventComponent {
+export class EditEventComponent {
     form: FormGroup;
     showSpinner = false;
+    eventId: string;
 
-    constructor(private router: Router, private eventService: EventService, private snackBar: MatSnackBar) {
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private eventService: EventService, private snackBar: MatSnackBar) {
         this.form = new FormGroup({
             name: new FormControl("", Validators.required),
             description: new FormControl("", Validators.required),
             themes: new FormControl([]),
-            startDate: new FormControl(null, [
-                Validators.required,
-                this.startDateValidator
-            ]),
-            endDate: new FormControl({value: null, disabled: true}, [
+            startDate: new FormControl(null),
+            endDate: new FormControl(null, [
                 this.endDateValidator
             ]),
         })
+        
+        this.form.get('startDate')!.disable();
+        
+    }
 
-        this.form.get('startDate')!.valueChanges.subscribe(value => {
-            if(!value){
-                this.form.get('endDate')!.disable();
-            }else{
-                this.form.get('endDate')!.enable();
-            }
+    ngOnInit() {
+        let eventId = this.activatedRoute.snapshot.paramMap.get('eventId')!;
+        this.eventId = eventId;
+        this.eventService.getEvent(eventId).subscribe(event => {
+            console.log(event)
+            
+            this.form.setValue({
+                name: event.name,
+                description: event.description,
+                themes: event.themes,
+                startDate: event.startDate,
+                endDate: event.endDate
+            });
         })
     }
 
@@ -74,18 +82,6 @@ export class NewEventComponent {
 
 
     //DATE VALIDATORS
-    startDateValidator(control: AbstractControl) {
-        const startDate = control.value;
-
-        const currentDate = new Date();
-        currentDate.setHours(0, 0, 0, 0);
-
-        if (new Date(startDate) < currentDate) {
-            return { 'invalidStartDate': true };
-        }
-
-        return null;
-    }
 
     endDateValidator(control: AbstractControl) {
         const endDate = control.value;
@@ -102,15 +98,14 @@ export class NewEventComponent {
     async onSubmit() {
         this.showSpinner = true;
 
-        
         //EVENTSERVICE CREAR NUEVO EVENTO
-        const response = await this.eventService.createEvent(this.form.value);
+        const response = await this.eventService.updateEvent(this.eventId, this.form.value);
         console.log(response);
 
         if (!response.error) {
             setTimeout(() => {
                 this.router.navigate(['/gallery']); // Navegar a la galería después de 2 segundos
-                this.snackBar.open('¡Evento creado con éxito!', 'Cerrar', {
+                this.snackBar.open('¡Evento editado con éxito!', 'Cerrar', {
                     duration: 3000, // Duración de la snackbar en milisegundos
                     panelClass: 'snackbar',
                 });

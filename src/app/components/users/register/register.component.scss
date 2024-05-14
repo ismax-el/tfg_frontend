@@ -5,9 +5,9 @@
 
 mat-card{
     max-width: 40vw;
-    margin: 5vh auto;
+    margin: 3vh auto;
     text-align: center;
-    padding: 3vh;
+    padding: 2vh;
     @media (max-width: 768px){
         max-width: 80vw;
         padding: 1vh;
@@ -20,4 +20,14 @@ mat-card{
 
 .password-error{
     padding: 1vh;
+}
+
+// .spinner{
+//     position: fixed;
+//     top: 50%;
+//     left: 50%;
+// }
+
+.captcha-info{
+    font-size: small;
 }

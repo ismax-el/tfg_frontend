@@ -20,6 +20,7 @@ export class ImageService {
         if (!this.loadingEvent) {
             this.loadingEvent = eventId;
             const eventImages = await firstValueFrom(this.http.get<any[]>(`http://localhost:3000/api/events/${eventId}/images`));
+            eventImages.sort((a, b) => b.likes - a.likes);
             this.eventImagesDict[eventId] = eventImages;
             console.log("Se ha cargado el evento ", eventId, "con las imágenes: ", eventImages);
             this.loadingEvent = null;
@@ -74,6 +75,12 @@ export class ImageService {
             return throwError('Error: No se encontró el ID de usuario.');
         }
         return this.http.post<any>(`${this.baseUrl}/events/${eventId}/images/${imageId}/dislike`, {userId}).pipe(response => {
+            return response;
+        });
+    }
+
+    deleteImage(eventId: string, imageId: string){
+        return this.http.delete<any>(`${this.baseUrl}/events/${eventId}/images/${imageId}/delete`).pipe(response => {
             return response;
         });
     }

@@ -66,3 +66,29 @@ mat-snack-bar-container{
     border-radius: 30% !important;
     box-shadow: none !important;
 }
+
+.mat-mdc-raised-button{
+    background-color: #FF69B1 !important;
+    color: white !important;
+}
+
+.mat-mdc-button-disabled{
+    background-color: rgb(229, 229, 229) !important
+}
+
+.mat-mdc-stroked-button{
+    background-color: #f4d8f6 !important;
+}
+
+.mat-mdc-progress-spinner{
+    --mdc-circular-progress-active-indicator-color: #FF69B1 !important;
+}
+
+.progress-spinner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh
+}
+
+.grecaptcha-badge { visibility: hidden; }

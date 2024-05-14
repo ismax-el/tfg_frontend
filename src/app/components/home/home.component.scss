@@ -1,0 +1,41 @@
+.main-container{
+    padding: 4vh;
+}
+
+.containers{
+    display: flex;
+    flex-direction: row;
+    border: 2px solid #CCB3F3;
+    border-radius: 10px;
+    text-wrap: wrap;
+    
+}
+
+@media (max-width: 1024px) {
+    .containers{
+        flex-direction: column;
+    }
+}
+
+.how-to-info{
+    background-color: #f4d8f6;
+    padding: 4vh;
+}
+
+.enjoy-info{
+    background-color: #CCB3F3;
+    padding: 4vh;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.header-info{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+mat-icon{
+    margin-left: 2vw;
+}

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +12,7 @@ export class UserService {
 
     constructor(private http: HttpClient) {
         this.baseUrl = 'http://localhost:3000/api/users';
-        this.retrieveUserInfo();
+        this.retrieveBasicUserInfo();
     }
 
     register(formValue: any) {
@@ -42,18 +42,22 @@ export class UserService {
         ).then(response => response.isValid);
     }
 
-    retrieveUserInfo(): any {
+    retrieveBasicUserInfo(): any {
         const token = localStorage.getItem('userToken');
         if (token) {
             const tokenPayload = JSON.parse(atob(token.split('.')[1]));
             console.log(tokenPayload);
-            
-            if(tokenPayload){
+
+            if (tokenPayload) {
                 //En lugar de settear el token en el localstorage, descifrarlo del token
                 this.userId = tokenPayload.user_id;
                 this.userRol = tokenPayload.user_rol;
             }
         }
+    }
+
+    getUserInfo(userId: string): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/getUserInfo/${userId}`)
     }
 
     isAdminUser(): any {

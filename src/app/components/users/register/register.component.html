@@ -1,3 +1,4 @@
+@if(!showSpinner){
 <mat-card>
     <mat-card-content>
         <form [formGroup]="form" class="form" (ngSubmit)="onSubmit()">
@@ -32,8 +33,8 @@
             <mat-form-field color="accent">
                 <mat-label>Introduce una contraseña</mat-label>
                 <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                    [attr.aria-pressed]="hide">
+                <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
@@ -41,18 +42,41 @@
             <mat-form-field color="accent">
                 <mat-label>Confirma la contraseña</mat-label>
                 <input matInput [type]="hideConfirm ? 'password' : 'text'" formControlName="confirmPassword" required>
-                <button mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm"
+                <button type="button" mat-icon-button matSuffix (click)="hideConfirm = !hideConfirm"
                     [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirm">
                     <mat-icon>{{hideConfirm ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
             </mat-form-field>
 
+            @if(form.get('password')?.invalid && form.get('password')?.touched){
+                <mat-error>
+                    La contraseña debe contener al menos 5 carácteres, una mayúscula y un símbolo.
+                </mat-error>
+            }
+
             @if(form.errors?.['mismatch'] && form.touched){
             <mat-error class="password-error">Las contraseñas deben coincidir</mat-error>
             }
 
+            <!-- Mostrar error si existe -->
+            @if(responseError){
+            <mat-error>{{ responseError }}</mat-error>
+            }
 
-            <button color="primary" mat-raised-button [disabled]="!form.valid">REGISTRAR</button>
+            <button type="submit" mat-raised-button [disabled]="!form.valid">REGISTRAR</button>
+
+            <p class="captcha-info">This site is protected by reCAPTCHA and the Google
+                <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+            </p>
+
+
         </form>
     </mat-card-content>
 </mat-card>
+}@else {
+<div class="progress-spinner">
+    <mat-progress-spinner class="spinner" mode="indeterminate" color="warn" diameter="64">
+    </mat-progress-spinner>
+</div>
+}

@@ -18,17 +18,19 @@
             </mat-form-field>
 
             <!-- Botón personalizado para subir imagen -->
-            <button mat-raised-button color="primary" type="button" (click)="fileInput.click()">
+            <button mat-stroked-button type="button" (click)="fileInput.click()">
                 Seleccionar imagen
             </button>
             <input type="file" #fileInput style="display: none" (change)="changedFileInput($event)" accept="image/*" required>
 
-            <button type="submit" [disabled]="!form.valid" color="warn" mat-raised-button>SUBIR ILUSTRACIÓN</button>
+            <button class="upload-image" type="submit" [disabled]="!form.valid" mat-raised-button>SUBIR ILUSTRACIÓN</button>
         </form>
     </mat-card-content>
 </mat-card>
 }
 @if(showSpinner){
-<mat-progress-spinner class="spinner" mode="indeterminate" color="warn" diameter="64">
-</mat-progress-spinner>
+    <div class="progress-spinner">
+        <mat-progress-spinner class="spinner" mode="indeterminate" color="warn" diameter="64">
+        </mat-progress-spinner>
+    </div>
 }
