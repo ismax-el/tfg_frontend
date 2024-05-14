@@ -13,7 +13,7 @@ export class EventService {
 
 
     constructor(private userService: UserService,private http: HttpClient) {
-        this.baseUrl = 'http://localhost:3000/api/events';
+        this.baseUrl = 'https://kaiprojectbackend.onrender.com/api/events';
     }
 
     getEvent(eventId: string): Observable<Event>{

@@ -11,7 +11,7 @@ export class UserService {
     userRol: string | null = null;
 
     constructor(private http: HttpClient) {
-        this.baseUrl = 'http://localhost:3000/api/users';
+        this.baseUrl = 'https://kaiprojectbackend.onrender.com/api/users';
         this.retrieveBasicUserInfo();
     }
 

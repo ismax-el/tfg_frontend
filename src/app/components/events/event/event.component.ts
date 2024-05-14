@@ -33,7 +33,7 @@ export class EventComponent implements OnInit {
     @ViewChild('likedImage') likedImageElement: ElementRef | undefined;
 
     constructor(public userService: UserService, private snackBar: MatSnackBar, private dialog: MatDialog, private activatedRoute: ActivatedRoute, private eventService: EventService, private imageService: ImageService, private router: Router) {
-        this.baseUrl = 'http://localhost:3000/api/events';
+        this.baseUrl = 'https://kaiprojectbackend.onrender.com/api/events';
         this.eventId = this.activatedRoute.snapshot.paramMap.get('eventId')!;
         console.log(this.eventId);
     }
