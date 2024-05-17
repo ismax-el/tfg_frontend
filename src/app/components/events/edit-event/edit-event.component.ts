@@ -54,6 +54,10 @@ export class EditEventComponent {
                 startDate: event.startDate,
                 endDate: event.endDate
             });
+        },
+        error => {
+            console.error("Error al obtener el evento.")
+            this.router.navigate(['/not-found'])
         })
     }
 

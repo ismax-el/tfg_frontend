@@ -27,8 +27,8 @@ export const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'gallery', component: GalleryComponent, canActivate: [loginGuard]}, 
     {path: 'new-event', component: NewEventComponent, canActivate: [loginGuard, userRolGuard]},
-    {path: 'event/:eventId/edit-event', component: EditEventComponent, canActivate: [loginGuard, userRolGuard]},
+    {path: 'event/:eventId/edit-event', component: EditEventComponent, canActivate: [loginGuard, userRolGuard, eventStatusGuard]},
     {path: 'event/:eventId', component: EventComponent, canActivate: [loginGuard]},
-    {path: 'event/:eventId/new-image', component: NewImageComponent, canActivate: [eventStatusGuard]},
+    {path: 'event/:eventId/new-image', component: NewImageComponent, canActivate: [loginGuard, eventStatusGuard]},
     {path: '**', component: NotFoundComponent}
 ];
