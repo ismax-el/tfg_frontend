@@ -13,7 +13,7 @@
         <div class="main-container">
             @if(upComingEvents.length > 0){
             @for(event of upComingEvents; track event){
-            <mat-card class="card-primary" (click)="goToEvent(event.id)">
+            <mat-card class="card-primary gallery-item" (click)="goToEvent(event.id)" [style.animation-delay]="$index * 0.1 + 's'">
                 <mat-card-header>
                     <mat-card-title>{{event.name}}</mat-card-title>
                     <mat-card-subtitle>Evento</mat-card-subtitle>
@@ -44,7 +44,7 @@
                 </mat-card-header>
                 <img mat-card-image
                     [src]=" event.defaultImage != null ? 'https://kaiprojectbackend.onrender.com/api/events/' + event.id + '/images/' + event.defaultImage + '/preview' : '../assets/placeholders/eventImage.png'"
-                    alt="Event image" height="250">
+                    alt="Previsualización evento" height="250">
                 <mat-card-content>
                     <p>Etiquetas</p>
                     @for(theme of event.themes; track theme){
@@ -76,7 +76,7 @@
             @if(pastEvents.length > 0){
             <!-- Cards para la sección secundaria -->
             @for(pastEvent of pastEvents; track pastEvent){
-            <mat-card class="card" (click)="goToEvent(pastEvent.id)">
+            <mat-card class="card gallery-item" (click)="goToEvent(pastEvent.id)" [style.animation-delay]="$index * 0.3 + 's'">
                 <mat-card-header>
                     <mat-card-title>{{pastEvent.name}}</mat-card-title>
                     <mat-card-subtitle>Subtítulo</mat-card-subtitle>
@@ -89,7 +89,7 @@
                 </mat-card-header>
                 <img mat-card-image
                     [src]=" pastEvent.defaultImage != null ? 'https://kaiprojectbackend.onrender.com/api/events/' + pastEvent.id + '/images/' + pastEvent.defaultImage + '/preview' : '../assets/placeholders/eventImage.png'"
-                    alt="Photo of a Shiba Inu">
+                    alt="Imagen de evento ganadora">
                 <mat-card-content>
                     <mat-divider></mat-divider>
                 </mat-card-content>

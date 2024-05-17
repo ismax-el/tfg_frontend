@@ -87,7 +87,10 @@ export class EditEventComponent {
         const endDate = control.value;
         const startDate = control.root.get('startDate')?.value;
 
-        if (new Date(endDate) <= new Date(startDate)) {
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        if ((new Date(endDate) <= new Date(startDate)) || (new Date(endDate) < currentDate)) {
             return { 'invalidEndDate': true };
         }
 
@@ -98,7 +101,7 @@ export class EditEventComponent {
     async onSubmit() {
         this.showSpinner = true;
 
-        //EVENTSERVICE CREAR NUEVO EVENTO
+        //EVENTSERVICE EDITAR EVENTO
         const response = await this.eventService.updateEvent(this.eventId, this.form.value);
         console.log(response);
 

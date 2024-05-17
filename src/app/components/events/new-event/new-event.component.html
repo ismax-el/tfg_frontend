@@ -34,7 +34,7 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1 color="primary"></mat-datepicker>
                 @if(form.get('startDate')?.errors?.['invalidStartDate']){
-                    <mat-error >La fecha de inicio no puede ser anterior al día actual.</mat-error>
+                    <mat-error >Ha de ser hoy o posterior.</mat-error>
                 }
             </mat-form-field>
 
@@ -44,7 +44,7 @@
                 <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2 color="primary"></mat-datepicker>
                 @if(form.get('endDate')?.errors?.['invalidEndDate']){
-                    <mat-error>La fecha de finalización no puede ser anterior a la fecha de inicio.</mat-error>
+                    <mat-error>Ha de ser posterior al inicio.</mat-error>
                 }
             </mat-form-field>
 

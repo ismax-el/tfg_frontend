@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-    <img src="../../../assets/branding/isotype.png" alt="" width="40">
+    <img src="../../../assets/branding/isotype.png" alt="Imagen por defecto" width="40" routerLink="/gallery" routerLinkActive="active" style="cursor: pointer;">
     <span class="spacer"></span>
     @if(isMobile){
         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Configuration" (click)="$event.stopPropagation()">

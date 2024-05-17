@@ -12,7 +12,7 @@
     @for(winnerInfo of winnersInfo; track winnerInfo){
     <div class="winner-info-container">
         <div class="winner-image-container">
-            <img [src]="baseUrl+'/'+eventId+'/images/'+winnerInfo?.winningImage+'/original'" alt="">
+            <img [src]="baseUrl+'/'+eventId+'/images/'+winnerInfo?.winningImage+'/original'" alt="Imagen de evento ganadora">
         </div>
         <div class="winner-details-container">
             <h3 class="winner-name">¡Un gran aplauso para... {{winnerInfo?.name}}!</h3>
@@ -66,9 +66,9 @@
         @for(image of images; track image){
         <div class="image-container fade-in-item">
             @if(likedImage == image._id){
-            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" #likedImage alt="">
+            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" #likedImage alt="Imagen de evento">
             }@else {
-            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="">
+            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="Imagen de evento">
             }
             @if(!event?.isActive){
             <div class="like-count">
