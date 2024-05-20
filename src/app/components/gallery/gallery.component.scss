@@ -46,7 +46,7 @@
 
 .card-primary{
     border-radius: 10px;
-    flex-basis: calc(50% - 2vh); /* Ancho mínimo para dos tarjetas por fila */
+    flex-basis: calc(50% - 2.5vh); /* Ancho mínimo para dos tarjetas por fila */
     border: 2px solid #7b6a9f;
     cursor: pointer;
 }
