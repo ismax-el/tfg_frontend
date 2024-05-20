@@ -79,7 +79,7 @@
             <mat-card class="card gallery-item" (click)="goToEvent(pastEvent.id)" [style.animation-delay]="$index * 0.3 + 's'">
                 <mat-card-header>
                     <mat-card-title>{{pastEvent.name}}</mat-card-title>
-                    <mat-card-subtitle>Subtítulo</mat-card-subtitle>
+                    <mat-card-subtitle>Evento pasado</mat-card-subtitle>
                     @if(userService.isAdminUser()){
                     <button mat-mini-fab aria-label="Delete"
                         (click)="askDeleteEvent(pastEvent.id, true); $event.stopPropagation()">

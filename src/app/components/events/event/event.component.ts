@@ -138,7 +138,6 @@ export class EventComponent implements OnInit {
     openImageDialog(imageId: string) {
         const imageUrl = `${this.baseUrl}/${this.eventId}/images/${imageId}/original`
         this.dialog.open(ImageComponent, {
-            width: "500px",
             data: { imageUrl }
         })
     }
