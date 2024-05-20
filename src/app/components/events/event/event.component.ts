@@ -14,11 +14,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogComponent } from '../../dialog/dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserService } from '../../../services/user.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-event',
     standalone: true,
-    imports: [MatTooltipModule, AsyncPipe, DatePipe, MatCardModule, MatButtonModule, MatIconModule],
+    imports: [MatProgressSpinner, MatTooltipModule, AsyncPipe, DatePipe, MatCardModule, MatButtonModule, MatIconModule],
     templateUrl: './event.component.html',
     styleUrl: './event.component.scss'
 })
@@ -29,6 +30,7 @@ export class EventComponent implements OnInit {
     event: Event | null;
     likedImage: string | null;
     winnersInfo: any[] = [];
+    isLoading: boolean = true;
 
     @ViewChild('likedImage') likedImageElement: ElementRef | undefined;
 
@@ -113,6 +115,9 @@ export class EventComponent implements OnInit {
 
         console.log("Evento actual: ", this.event);
 
+        setTimeout(() => {
+            this.isLoading = false;
+        }, 1000);
     }
 
     getWinnersInfo(winnerImages: any[]) {

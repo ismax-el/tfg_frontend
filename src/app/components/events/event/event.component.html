@@ -1,4 +1,9 @@
-<div class="layout">
+<div class="progress-spinner" [class.hidden]="!isLoading">
+    <mat-progress-spinner class="spinner" mode="indeterminate" color="warn" diameter="64">
+    </mat-progress-spinner>
+</div>
+
+<div class="layout" [class.hidden]="isLoading">
     <div class="event-info">
         <h2>{{event?.name}}</h2>
         @if(event?.isActive){
@@ -12,7 +17,8 @@
     @for(winnerInfo of winnersInfo; track winnerInfo){
     <div class="winner-info-container">
         <div class="winner-image-container">
-            <img [src]="baseUrl+'/'+eventId+'/images/'+winnerInfo?.winningImage+'/original'" alt="Imagen de evento ganadora">
+            <img [src]="baseUrl+'/'+eventId+'/images/'+winnerInfo?.winningImage+'/original'"
+                alt="Imagen de evento ganadora">
         </div>
         <div class="winner-details-container">
             <h3 class="winner-name">¡Un gran aplauso para... {{winnerInfo?.name}}!</h3>
@@ -64,9 +70,10 @@
     @if(images.length > 0){
     <div class="images-container">
         @for(image of images; track image){
-        <div class="image-container fade-in-item">
+        <div class="image-container fade-in-item" [style.animation-delay]="$index * 0.05 + 's'">
             @if(likedImage == image._id){
-            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" #likedImage alt="Imagen de evento">
+            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" #likedImage
+                alt="Imagen de evento">
             }@else {
             <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="Imagen de evento">
             }

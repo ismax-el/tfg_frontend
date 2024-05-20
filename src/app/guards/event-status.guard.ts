@@ -30,8 +30,9 @@ export const eventStatusGuard: CanActivateFn = (route, state) => {
                 return throwError(error)
             })
         );
+    }else{
+        return false; // Si no se proporciona el eventId, no permitir el acceso
     }
-    return false; // Si no se proporciona el eventId, no permitir el acceso
 
 
 };
