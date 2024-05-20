@@ -21,7 +21,7 @@
             <button mat-stroked-button type="button" (click)="fileInput.click()">
                 Seleccionar imagen
             </button>
-            <input type="file" #fileInput style="display: none" (change)="changedFileInput($event)" accept="image/jpeg, image/png" capture="environment" required>
+            <input type="file" #fileInput style="display: none" (change)="changedFileInput($event)" accept=".jpeg, .png" required>
 
             <button class="upload-image" type="submit" [disabled]="!form.valid" mat-raised-button>SUBIR ILUSTRACIÓN</button>
 
