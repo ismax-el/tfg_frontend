@@ -27,26 +27,26 @@ export class NewEventComponent {
     showSpinner = false;
 
     constructor(private router: Router, private eventService: EventService, private snackBar: MatSnackBar) {
+        let currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
         this.form = new FormGroup({
             name: new FormControl("", Validators.required),
             description: new FormControl("", Validators.required),
             themes: new FormControl([]),
-            startDate: new FormControl(null, [
-                Validators.required,
-                this.startDateValidator
-            ]),
-            endDate: new FormControl({value: null, disabled: true}, [
+            startDate: new FormControl({ value: currentDate, disabled: true }),
+            endDate: new FormControl(null, [
                 this.endDateValidator
             ]),
         })
-
-        this.form.get('startDate')!.valueChanges.subscribe(value => {
-            if(!value){
-                this.form.get('endDate')!.disable();
-            }else{
-                this.form.get('endDate')!.enable();
-            }
-        })
+        
+        // this.form.get('startDate')!.valueChanges.subscribe(value => {
+        //     if (!value) {
+        //         this.form.get('endDate')!.disable();
+        //     } else {
+        //         this.form.get('endDate')!.enable();
+        //     }
+        // })
     }
 
     //CHIPS PARA THEMES
@@ -74,18 +74,18 @@ export class NewEventComponent {
 
 
     //DATE VALIDATORS
-    startDateValidator(control: AbstractControl) {
-        const startDate = control.value;
+    // startDateValidator(control: AbstractControl) {
+    //     const startDate = control.value;
 
-        const currentDate = new Date();
-        currentDate.setHours(0, 0, 0, 0);
+    //     const currentDate = new Date();
+    //     currentDate.setHours(0, 0, 0, 0);
 
-        if (new Date(startDate) < currentDate) {
-            return { 'invalidStartDate': true };
-        }
+    //     if (new Date(startDate) < currentDate) {
+    //         return { 'invalidStartDate': true };
+    //     }
 
-        return null;
-    }
+    //     return null;
+    // }
 
     endDateValidator(control: AbstractControl) {
         const endDate = control.value;
@@ -102,9 +102,9 @@ export class NewEventComponent {
     async onSubmit() {
         this.showSpinner = true;
 
-        
+
         //EVENTSERVICE CREAR NUEVO EVENTO
-        const response = await this.eventService.createEvent(this.form.value);
+        const response = await this.eventService.createEvent(this.form.getRawValue());
         console.log(response);
 
         if (!response.error) {

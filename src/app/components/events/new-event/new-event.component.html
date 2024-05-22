@@ -33,9 +33,6 @@
                 <input matInput [matDatepicker]="picker1" formControlName="startDate">
                 <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                 <mat-datepicker #picker1 color="primary"></mat-datepicker>
-                @if(form.get('startDate')?.errors?.['invalidStartDate']){
-                    <mat-error >Ha de ser hoy o posterior.</mat-error>
-                }
             </mat-form-field>
 
             <mat-form-field>
