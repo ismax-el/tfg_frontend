@@ -73,9 +73,9 @@
         <div class="image-container fade-in-item" [style.animation-delay]="$index * 0.05 + 's'">
             @if(likedImage == image._id){
             <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" #likedImage
-                alt="Imagen de evento" loading="lazy">
+                alt="Imagen de evento">
             }@else {
-            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="Imagen de evento" loading="lazy">
+            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="Imagen de evento">
             }
             @if(!event?.isActive){
             <div class="like-count">
