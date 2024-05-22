@@ -18,7 +18,7 @@
     <div class="winner-info-container">
         <div class="winner-image-container">
             <img [src]="baseUrl+'/'+eventId+'/images/'+winnerInfo?.winningImage+'/original'"
-                alt="Imagen de evento ganadora">
+                alt="Imagen de evento ganadora" loading="eager">
         </div>
         <div class="winner-details-container">
             <h3 class="winner-name">¡Un gran aplauso para... {{winnerInfo?.name}}!</h3>
@@ -73,9 +73,9 @@
         <div class="image-container fade-in-item" [style.animation-delay]="$index * 0.05 + 's'">
             @if(likedImage == image._id){
             <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" #likedImage
-                alt="Imagen de evento">
+                alt="Imagen de evento" loading="lazy">
             }@else {
-            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="Imagen de evento">
+            <img [src]="baseUrl+'/'+eventId+'/images/'+image._id+'/preview'" alt="Imagen de evento" loading="lazy">
             }
             @if(!event?.isActive){
             <div class="like-count">

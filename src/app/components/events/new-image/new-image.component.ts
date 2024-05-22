@@ -95,13 +95,13 @@ export class NewImageComponent {
                         panelClass: 'snackbar',
                     });
                 })
-            }, 2000);
+            }, 1000);
         }
 
-        // Ocultar el spinner después de 2 segundos, independientemente del resultado de la respuesta
-        setTimeout(() => {
-            this.showSpinner = false;
-        }, 2000);
+        // // Ocultar el spinner después de 2 segundos, independientemente del resultado de la respuesta
+        // setTimeout(() => {
+        //     this.showSpinner = false;
+        // }, 2000);
     }
 
 }

@@ -73,17 +73,18 @@ export class RegisterComponent {
                 this.snackBar.open('Te has registrado correctamente', 'Cerrar', {
                     duration: 3000, // Duración de la snackbar en milisegundos
                 });
-            }, 2000);
+            }, 1000);
         }else{
             //En caso de que ya exista un usuario con ese mismo mail
             this.responseError = response.error;
+            this.showSpinner = false;
             console.log(response.error)
         }
 
         // Ocultar el spinner después de 2 segundos, independientemente del resultado de la respuesta
-        setTimeout(() => {
-            this.showSpinner = false;
-        }, 2000);
+        // setTimeout(() => {
+        //     this.showSpinner = false;
+        // }, 2000);
     }
 
     executeRecaptcha(){

@@ -57,16 +57,17 @@ export class LoginComponent {
                     // duration: 3000, // Duración de la snackbar en milisegundos
                     panelClass: 'snackbar',
                 });
-            }, 2000);
+            }, 1000);
         }else{
             this.responseError = response.error;
+            this.showSpinner = false;
             console.log(response.error)
         }
 
         // Ocultar el spinner después de 2 segundos, independientemente del resultado de la respuesta
-        setTimeout(() => {
-            this.showSpinner = false;
-        }, 2000);
+        // setTimeout(() => {
+        //     this.showSpinner = false;
+        // }, 2000);
     }
 
     executeRecaptcha(){

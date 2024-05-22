@@ -116,12 +116,12 @@ export class EditEventComponent {
                     duration: 3000, // Duración de la snackbar en milisegundos
                     panelClass: 'snackbar',
                 });
-            }, 2000);
+            }, 1000);
         }
 
         // Ocultar el spinner después de 2 segundos, independientemente del resultado de la respuesta
-        setTimeout(() => {
-            this.showSpinner = false;
-        }, 2000);
+        // setTimeout(() => {
+        //     this.showSpinner = false;
+        // }, 2000);
     }
 }
