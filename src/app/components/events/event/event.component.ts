@@ -109,7 +109,9 @@ export class EventComponent implements OnInit {
         //Obtener en caso, de que haya, la imagen con like del user de ese evento
         this.imageService.getUserEventLike(this.eventId).subscribe((response) => {
             console.log(response);
-            this.likedImage = response.imageId;
+
+            if(!response.error)
+                this.likedImage = response.imageId;
         })
 
 
